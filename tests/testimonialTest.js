@@ -1,4 +1,5 @@
 import { sleep } from "k6";
+import http from 'k6/http';
 import { getProfile } from "../requests/profileRequest.js";
 import { loginRequest } from "../requests/loginRequest.js";
 import { TEST_CONFIG } from "../config/constants.js";
@@ -12,6 +13,13 @@ import { putTestimonial } from "../requests/testimonialRequest.js";
 import { deleteTestimonial } from "../requests/testimonialRequest.js";  
 import profileTest from "./profileTest.js";
 import loginTest from "./loginTest.js";
+//import { htmlReport } from 'https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js';
+import { check } from "k6";
+//import { handleSummary } from "./report.js";
+//import { htmlReport } from "https://jslib.k6.io/k6-summary/0.0.1/index.js";
+import { htmlReport } from "https://jslib.k6.io/k6-summary/0.0.1/index.js";
+
+
 
 
 export const options = {
@@ -74,5 +82,7 @@ export default function testimonialTest() {
     console.log(`DELETED Testimonial ID: ${testimonialId}`);
     console.log("~~~~~~~~~~~~~~~~~~~~Testimonial test completed.~~~~~~~~~~~~~~~~~~~~");
 
-    
-};
+}
+
+
+
