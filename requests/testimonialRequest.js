@@ -1,6 +1,8 @@
 import http from 'k6/http';
 import { URLS } from "../config/urls.js";
 import { HEADERS } from "../config/constants.js";
+import { htmlReport } from 'https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js';
+import { check } from "k6";
 
 
 export function postTestimonial( token , payload) {

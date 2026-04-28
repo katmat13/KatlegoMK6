@@ -13,12 +13,8 @@ import { putTestimonial } from "../requests/testimonialRequest.js";
 import { deleteTestimonial } from "../requests/testimonialRequest.js";  
 import profileTest from "./profileTest.js";
 import loginTest from "./loginTest.js";
-//import { htmlReport } from 'https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js';
+import { htmlReport } from 'https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js';
 import { check } from "k6";
-//import { handleSummary } from "./report.js";
-//import { htmlReport } from "https://jslib.k6.io/k6-summary/0.0.1/index.js";
-import { htmlReport } from "https://jslib.k6.io/k6-summary/0.0.1/index.js";
-
 
 
 
@@ -46,10 +42,10 @@ export default function testimonialTest() {
     //post testimonial using the token
     console.log("Posting testimonial using the token...");
     const testimonialResponse = postTestimonial(token, PAYLOADS.postTestimonial);
-    
+    validateTestimonialResponse(testimonialResponse);
     console.log(`Response status: ${testimonialResponse.status}`);
     console.log(`Response body: ${testimonialResponse.body}`);
-    validateTestimonialResponse(testimonialResponse);
+    
 
      //  Parse the JSON body
     const json = JSON.parse(testimonialResponse.body);
@@ -67,10 +63,11 @@ export default function testimonialTest() {
 
     //update testimonial using the token
     console.log("Updating testimonial using the token and testimonial ID...");
-   const updateTestimonialResponse = putTestimonial(token, testimonialId, PAYLOADS.putTestimonial);
+    const updateTestimonialResponse = putTestimonial(token, testimonialId, PAYLOADS.putTestimonial);
+    validateTestimonialResponse(updateTestimonialResponse)
     console.log(`Response status: ${updateTestimonialResponse.status}`);
     console.log(`Response body: ${updateTestimonialResponse.body}`);
-    validateTestimonialResponse(updateTestimonialResponse)
+    
     console.log(`UPDATED Testimonial ID: ${testimonialId}`);
 
     //delete testimonial using the token
@@ -83,6 +80,17 @@ export default function testimonialTest() {
     console.log("~~~~~~~~~~~~~~~~~~~~Testimonial test completed.~~~~~~~~~~~~~~~~~~~~");
 
 }
+// Generate HTML report after the test run and save it in the report folder.
+export function handleSummary(data) {
+  
+  return {
+    'reports/Summary Test Report.html': htmlReport(data),
+  };
+}
+  
+
+
+
 
 
 
